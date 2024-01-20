@@ -1,0 +1,92 @@
+﻿@model IEnumerable<MasterDetailsCoreApp.Models.Customer>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+<table class="table" id="data">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Address)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ContactNo)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.IsPermanent)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Image)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr id="data-@item.Id">
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Address)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ContactNo)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.IsPermanent)
+				</td>
+				<td>
+					<img src="@item.Image" width="80" />
+				</td>
+				<td>
+					<a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+					<a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+					<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+					<button class="btn  btn-outline-success btn-icon-split" onclick="ajaxDelete(@item.Id)">
+						Ajax Delete
+					</button>
+				</td>
+
+			</tr>
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="12">
+				Grand total = @ViewBag.GrandTotal and No of Invoce is @ViewBag.Count and Average sales amount is @ViewBag.Average
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+@section Scripts {
+	<script>
+		function ajaxDelete(id) {
+
+			var ok = confirm(`Delete invoice?`);
+
+			if (ok) {
+				$.ajax({
+					url: "/deleteinvoice/" + id ,
+					type: "delete",
+
+					success: function () {
+						alert("success");
+						$('#data-' + id).remove();
+					}
+				});
+			}
+		}
+	</script>
+}
