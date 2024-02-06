@@ -9,5 +9,10 @@ namespace MasterDetailsCoreApp.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
         public DbSet<Items> Items { get; set; }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }
